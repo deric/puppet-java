@@ -100,12 +100,6 @@ class java::params {
               'alternative_path' => '/usr/lib/jvm/j2sdk1.7-oracle/jre/bin/java',
               'java_home'        => '/usr/lib/jvm/j2sdk1.7-oracle/jre/',
             },
-            'oracle' => {
-              'package'          => 'oracle-jdk7-installer',
-              'alternative'      => 'java-7-oracle',
-              'alternative_path' => '/usr/lib/jvm/java-7-oracle/jre/bin/java',
-              'java_home'        => '/usr/lib/jvm/java-7-oracle/',
-            },
           }
         }
         'vivid': {

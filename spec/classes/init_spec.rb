@@ -228,7 +228,6 @@ describe 'java', :type => :class do
     it { should contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }
     context 'java 7' do
       it { should contain_package('java').with_name('oracle-java7-installer') }
-      it { should_not contain_package('oracle-java7-set-default').with_ensure('present') }
     end
 
     context 'without accepting license' do
@@ -246,24 +245,20 @@ describe 'java', :type => :class do
       let(:params) { {
         'repository'            => 'webupd8team',
         'distribution'          => 'oracle',
-        'set_oracle_default'    => true,
         'release'               => 'java7',
         'accept_oracle_license' => true,
       } }
       it { should contain_package('java').with_name('oracle-java7-installer') }
-      it { should contain_package('oracle-java7-set-default').with_ensure('present') }
     end
 
     context 'java 8' do
       let(:params) { {
         'repository'            => 'webupd8team',
         'distribution'          => 'oracle',
-        'set_oracle_default'    => true,
         'release'               => 'java8',
         'accept_oracle_license' => true,
       } }
       it { should contain_package('java').with_name('oracle-java8-installer') }
-      it { should contain_package('oracle-java8-set-default').with_ensure('present') }
     end
   end
 

@@ -11,7 +11,6 @@ class java(
   $release               = 'java8',
   $repository            = undef,
   $accept_oracle_license = false,
-  $set_oracle_default    = false,
 ) {
 
   include java::params
@@ -24,7 +23,24 @@ class java(
     $default_alternative_path = $java::params::java[$distribution]['alternative_path']
     $java_home                = $java::params::java[$distribution]['java_home']
   } else {
-    fail("Java distribution ${distribution} is not supported.")
+    if ($distribution == 'oracle'){
+      $default_package_name = "oracle-${release}-installer"
+      case $release {
+        'java8': {
+          $default_alternative = 'java-8-oracle'
+        }
+        'java9': {
+          $default_alternative = 'java-8-oracle'
+        }
+        default: {
+          $default_alternative = 'java-7-oracle'
+        }
+      }
+      $default_alternative_path = "/usr/lib/jvm/${default_alternative}/jre/bin/java"
+      $java_home                = "/usr/lib/jvm/${default_alternative}"
+    } else {
+      fail("Java distribution ${distribution} is not supported.")
+    }
   }
 
   $use_java_package_name = $package ? {
@@ -80,11 +96,11 @@ class java(
             require => [Exec['apt_update'],Exec['oracle-license']],
           }
 
-          if $set_oracle_default {
-            ensure_resource('package', ["oracle-${release}-set-default"],
-              {'ensure' => $version, 'require' => Package['java']}
-            )
-          }
+          #if $set_oracle_default {
+          #  ensure_resource('package', ["oracle-${release}-set-default"],
+          #    {'ensure' => $version, 'require' => Package['java']}
+          #  )
+          #}
         } else {
           fail "Set \$accept_oracle_license => true in order to install Oracle package"
         }
