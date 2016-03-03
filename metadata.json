@@ -2,7 +2,7 @@
   "name": "deric-java",
   "version": "0.1.0",
   "author": "deric",
-  "summary": "Manages Java 8/9 binary packages (also Oracle Java)",
+  "summary": "Manages Java 7/8/9 binary packages (including Oracle Java)",
   "license": "Apache-2.0",
   "source": "",
   "project_page": null,

@@ -1,48 +1,102 @@
 # Class: java
 # ===========================
 #
-# Full description of class java here.
-#
-# Parameters
-# ----------
-#
-# Document parameters here.
-#
-# * `sample parameter`
-# Explanation of what this parameter affects and what it defaults to.
-# e.g. "Specify one or more upstream ntp servers as an array."
-#
-# Variables
-# ----------
-#
-# Here you should define a list of variables that this module would require.
-#
-# * `sample variable`
-#  Explanation of how this variable affects the function of this class and if
-#  it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#  External Node Classifier as a comma separated list of hostnames." (Note,
-#  global variables should be avoided in favor of class parameters as
-#  of Puppet 2.6.)
-#
-# Examples
-# --------
-#
-# @example
-#    class { 'java':
-#      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#    }
-#
-# Authors
-# -------
-#
-# Author Name <author@domain.com>
-#
-# Copyright
-# ---------
-#
-# Copyright 2016 Your name here, unless otherwise noted.
-#
-class java {
+class java(
+  $distribution          = 'jdk',
+  $version               = 'present',
+  $package               = undef,
+  $java_alternative      = undef,
+  $java_alternative_path = undef,
+  $source                = undef,
+  $release               = 'java8',
+  $repository            = undef,
+  $accept_oracle_license = false,
+  $set_oracle_default    = false,
+) {
 
+  include java::params
+
+  validate_re($version, 'present|installed|latest|^[.+_0-9a-zA-Z:-]+$')
+
+  if has_key($java::params::java, $distribution) {
+    $default_package_name     = $java::params::java[$distribution]['package']
+    $default_alternative      = $java::params::java[$distribution]['alternative']
+    $default_alternative_path = $java::params::java[$distribution]['alternative_path']
+    $java_home                = $java::params::java[$distribution]['java_home']
+  } else {
+    fail("Java distribution ${distribution} is not supported.")
+  }
+
+  $use_java_package_name = $package ? {
+    undef   => $default_package_name,
+    default => $package,
+  }
+
+  ## If $java_alternative is set, use that.
+  ## Elsif the DEFAULT package is being used, then use $default_alternative.
+  ## Else undef
+  $use_java_alternative = $java_alternative ? {
+    undef   => $use_java_package_name ? {
+      $default_package_name => $default_alternative,
+      default               => undef,
+    },
+    default => $java_alternative,
+  }
+
+  ## Same logic as $java_alternative above.
+  $use_java_alternative_path = $java_alternative_path ? {
+    undef   => $use_java_package_name ? {
+      $default_package_name => $default_alternative_path,
+      default               => undef,
+    },
+    default => $java_alternative_path,
+  }
+
+  $jre_flag = $use_java_package_name ? {
+    /headless/ => '--jre-headless',
+    default    => '--jre'
+  }
+
+  anchor { 'java::begin:': }
+  ->
+  class {'java::repo':
+    repository => $repository,
+  }
+  ->
+  anchor { 'java::package': }
+  case $::osfamily {
+    Debian: {
+      # Needed for update-java-alternatives
+      ensure_resource('package', ['java-common'],
+        {'ensure' => present, 'require' => Anchor['java::package:']}
+      )
+      if ($distribution == 'oracle'){
+        ensure_resource('package', ["oracle-${release}-${distribution}", "oracle-${release}-set-default"],
+          {'ensure' => $version, 'require' => Package['java-common']}
+        )
+
+        if $set_oracle_default {
+          ensure_resource('package', ["oracle-${release}-set-default"],
+            {'ensure' => $version, 'require' => Package['java-common']}
+          )
+        }
+      } else {
+        package { 'java':
+          ensure => $version,
+          name   => $use_java_package_name,
+        }
+      }
+    }
+
+    default: {
+      package { 'java':
+        ensure => $version,
+        name   => $use_java_package_name,
+      }
+    }
+  }
+  ->
+  class { 'java::config': }
+  -> anchor { 'java::end': }
 
 }
