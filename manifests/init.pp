@@ -65,25 +65,33 @@ class java(
   ->
   anchor { 'java::package': }
   case $::osfamily {
-    Debian: {
+    'Debian': {
       # Needed for update-java-alternatives
       ensure_resource('package', ['java-common'],
-        {'ensure' => present, 'require' => Anchor['java::package:']}
+        {'ensure' => present, 'before' => Anchor['java::package']}
       )
       if ($distribution == 'oracle'){
-        ensure_resource('package', ["oracle-${release}-${distribution}", "oracle-${release}-set-default"],
-          {'ensure' => $version, 'require' => Package['java-common']}
-        )
+        if $accept_oracle_license {
+          package { 'java':
+            ensure => $version,
+            name   => "oracle-${release}-installer",
+            before => Package['java-common']
+          }
 
-        if $set_oracle_default {
-          ensure_resource('package', ["oracle-${release}-set-default"],
-            {'ensure' => $version, 'require' => Package['java-common']}
-          )
+          if $set_oracle_default {
+            ensure_resource('package', ["oracle-${release}-set-default"],
+              {'ensure' => $version, 'require' => Package['java-common']}
+            )
+          }
+        } else {
+          fail "Set \$accept_oracle_license => true in order to install Oracle package"
         }
+
       } else {
         package { 'java':
           ensure => $version,
           name   => $use_java_package_name,
+          before => Anchor['java::package']
         }
       }
     }
@@ -92,11 +100,13 @@ class java(
       package { 'java':
         ensure => $version,
         name   => $use_java_package_name,
+        before => Anchor['java::package']
       }
     }
   }
-  ->
-  class { 'java::config': }
+  class { 'java::config':
+    require => Anchor['java::package']
+  }
   -> anchor { 'java::end': }
 
 }

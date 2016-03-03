@@ -208,4 +208,82 @@ describe 'java', :type => :class do
       end
     end
   end
+
+  context 'select Oracle JRE for Debian Wheezy' do
+    let(:facts) { {
+      :osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistid => 'Debian',
+      :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1',
+      :architecture => 'amd64',
+    } }
+
+    let(:params) { {
+      'repository'            => 'webupd8team',
+      'distribution'          => 'oracle',
+      'release'               => 'java7',
+      'accept_oracle_license' => true,
+    } }
+
+    it { should compile.with_all_deps }
+    it { should contain_class('apt') }
+    it { should contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }
+    context 'java 7' do
+      it { should contain_package('java').with_name('oracle-java7-installer') }
+      it { should_not contain_package('oracle-java7-set-default').with_ensure('present') }
+    end
+
+    context 'without accepting license' do
+      let(:params) { {
+        'repository'            => 'webupd8team',
+        'distribution'          => 'oracle',
+        'accept_oracle_license' => false,
+      } }
+      it {
+        expect { should raise_error(Puppet::Error) }
+      }
+    end
+
+    context 'java 7 as default' do
+      let(:params) { {
+        'repository'            => 'webupd8team',
+        'distribution'          => 'oracle',
+        'set_oracle_default'    => true,
+        'release'               => 'java7',
+        'accept_oracle_license' => true,
+      } }
+      it { should contain_package('java').with_name('oracle-java7-installer') }
+      it { should contain_package('oracle-java7-set-default').with_ensure('present') }
+    end
+
+    context 'java 8' do
+      let(:params) { {
+        'repository'            => 'webupd8team',
+        'distribution'          => 'oracle',
+        'set_oracle_default'    => true,
+        'release'               => 'java8',
+        'accept_oracle_license' => true,
+      } }
+      it { should contain_package('java').with_name('oracle-java8-installer') }
+      it { should contain_package('oracle-java8-set-default').with_ensure('present') }
+    end
+  end
+
+  context 'select Oracle JDK for Debian Jessie' do
+    let(:facts) { {
+      :osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistid => 'Debian',
+      :lsbdistcodename => 'jessie', :operatingsystemrelease => '8.1',
+      :architecture => 'amd64',
+    } }
+
+    let(:params) { {
+      'distribution'          => 'oracle',
+      'repository'            => 'webupd8team',
+      'release'               => 'java9',
+      'accept_oracle_license' => true,
+    } }
+    it { should contain_class('java::repo') }
+    it { should contain_class('apt') }
+    it { should contain_package('java').with_name('oracle-java9-installer') }
+    it { should contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }
+  end
+
 end

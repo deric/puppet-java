@@ -4,20 +4,20 @@ class java::repo(
   ) {
 
   case $::osfamily {
-    Debian: {
+    'Debian': {
       case $repository {
         'webupd8team' :{
          case $::operatingsystem {
-            Debian: {
+            'Debian': {
               $dist_name = 'trusty'
             }
 
-            Ubuntu: {
+            'Ubuntu': {
               $dist_name = $::lsbdistcodename
             }
 
             default: {
-              notice "Unsupported operatingsystem ${::operatingsystem}"
+              fail "Unsupported operatingsystem ${::operatingsystem}"
             }
           }
 
@@ -37,7 +37,6 @@ class java::repo(
             content => template('java/preseed.erb'),
             mode   => '0600',
             backup => false,
-            before => Anchor['java::repo:']
           }
         }
         default: {}

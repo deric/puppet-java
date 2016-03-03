@@ -2,6 +2,7 @@
 .tmp/*
 *.log
 spec/fixtures/modules/*
+spec/fixtures/manifests/*
 pkg/*
 .bundle
 Gemfile.lock
