@@ -36,6 +36,7 @@ class java::repo(
 
           exec{'oracle-license':
             command => '/bin/echo "oracle-${release}-installer shared/accepted-oracle-license-v1-1 select true" | /usr/bin/debconf-set-selections'
+            unless  => '/bin/echo "get shared/accepted-oracle-license-v1-1" | /usr/bin/debconf-communicate | /bin/grep "true"'
           }
         }
         default: {}
