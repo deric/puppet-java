@@ -61,6 +61,7 @@ class java(
   ->
   class {'java::repo':
     repository => $repository,
+    release    => $release,
   }
   ->
   anchor { 'java::package': }

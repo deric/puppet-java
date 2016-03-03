@@ -1,6 +1,7 @@
 # Repositories with binary Java packages
 class java::repo(
   $repository,
+  $release,
   ) {
 
   case $::osfamily {
@@ -33,10 +34,8 @@ class java::repo(
           ->
           Class['apt::update']
 
-          file { '/tmp/java.preseed':
-            content => template('java/preseed.erb'),
-            mode   => '0600',
-            backup => false,
+          exec{'oracle-license':
+            command => '/bin/echo "oracle-${release}-installer shared/accepted-oracle-license-v1-1 select true" | /usr/bin/debconf-set-selections'
           }
         }
         default: {}
