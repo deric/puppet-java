@@ -7,7 +7,6 @@ Usage:
 class{'java':
   repository            => 'webupd8team',
   distribution          => 'oracle',
-  set_oracle_default    => true,
   release               => 'java8',
   accept_oracle_license => true,
 }
