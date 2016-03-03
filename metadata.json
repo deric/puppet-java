@@ -4,9 +4,9 @@
   "author": "deric",
   "summary": "Manages Java 7/8/9 binary packages (including Oracle Java)",
   "license": "Apache-2.0",
-  "source": "",
-  "project_page": null,
-  "issues_url": null,
+  "source": "https://github.com/deric/puppet-java/archive/master.zip",
+  "project_page": "https://github.com/deric/puppet-java",
+  "issues_url": "https://github.com/deric/puppet-java/issues",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
