@@ -77,12 +77,12 @@ class java(
             ensure  => $version,
             name    => "oracle-${release}-installer",
             before  => Package['java-common'],
-            require => Exec['apt_update'],
+            require => [Exec['apt_update'],Exec['oracle-license']],
           }
 
           if $set_oracle_default {
             ensure_resource('package', ["oracle-${release}-set-default"],
-              {'ensure' => $version, 'require' => [Package['java-common'],Exec['apt_update']]}
+              {'ensure' => $version, 'require' => Package['java']}
             )
           }
         } else {
