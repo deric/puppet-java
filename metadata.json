@@ -1,6 +1,6 @@
 {
   "name": "deric-java",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "deric",
   "summary": "Manages Java 7/8/9 binary packages (including Oracle Java)",
   "license": "Apache-2.0",
@@ -98,4 +98,3 @@
     }
   ]
 }
-
