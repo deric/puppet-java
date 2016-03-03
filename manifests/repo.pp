@@ -8,7 +8,7 @@ class java::repo(
     'Debian': {
       case $repository {
         'webupd8team' :{
-         case $::operatingsystem {
+          case $::operatingsystem {
             'Debian': {
               $dist_name = 'trusty'
             }
