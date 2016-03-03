@@ -73,14 +73,15 @@ class java(
       if ($distribution == 'oracle'){
         if $accept_oracle_license {
           package { 'java':
-            ensure => $version,
-            name   => "oracle-${release}-installer",
-            before => Package['java-common']
+            ensure  => $version,
+            name    => "oracle-${release}-installer",
+            before  => Package['java-common'],
+            require => Exec['apt_update'],
           }
 
           if $set_oracle_default {
             ensure_resource('package', ["oracle-${release}-set-default"],
-              {'ensure' => $version, 'require' => Package['java-common']}
+              {'ensure' => $version, 'require' => [Package['java-common'],Exec['apt_update']]}
             )
           }
         } else {
