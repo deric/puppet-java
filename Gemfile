@@ -7,6 +7,7 @@ gem 'puppet-lint', '>= 1.0.0'
 gem 'facter', '>= 1.7.0'
 gem 'librarian-puppet' , '>=2.0'
 gem 'metadata-json-lint'
+gem 'rspec', '< 3.0.0'
 
 group :development do
   gem 'puppet-blacksmith',  '~> 3.0'
