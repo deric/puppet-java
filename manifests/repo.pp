@@ -24,14 +24,16 @@ class java::repo(
 
           include apt
           apt::source { 'webupd8team-java':
-            location    => 'http://ppa.launchpad.net/webupd8team/java/ubuntu',
-            release     => $dist_name,
-            repos       => 'main',
-            key         => {
+            location => 'http://ppa.launchpad.net/webupd8team/java/ubuntu',
+            release  => $dist_name,
+            repos    => 'main',
+            include  => {
+              'src' => true
+            },
+            key      => {
               'id'     => '7B2C3B0889BF5709A105D03AC2518248EEA14886',
               'server' => 'keyserver.ubuntu.com',
             },
-            include    => { 'src' => true },
           }
           ->
           Class['apt::update']
