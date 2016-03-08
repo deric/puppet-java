@@ -30,7 +30,7 @@ class java(
           $default_alternative = 'java-8-oracle'
         }
         'java9': {
-          $default_alternative = 'java-8-oracle'
+          $default_alternative = 'java-9-oracle'
         }
         default: {
           $default_alternative = 'java-7-oracle'
