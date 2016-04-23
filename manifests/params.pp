@@ -84,7 +84,7 @@ class java::params {
             },
           }
         }
-        'wheezy', 'jessie', 'precise','quantal','raring','saucy', 'trusty', 'utopic': {
+        'wheezy', 'precise','quantal','raring','saucy', 'trusty', 'utopic': {
           $java =  {
             'jdk' => {
               'package'          => 'openjdk-7-jdk',
@@ -124,7 +124,7 @@ class java::params {
               },
           }
         }
-        'vivid', 'wily', 'xenial': {
+        'jessie', 'vivid', 'wily', 'xenial': {
           $java =  {
             'jdk' => {
               'package'          => 'openjdk-8-jdk',
