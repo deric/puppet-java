@@ -11,7 +11,7 @@ cache:
 script:
   - RAKE_ENV=ci bundle exec rake validate
   - RAKE_ENV=ci bundle exec rake spec
-  - RAKE_ENV=ci bundle exec rake lint
+  #  - RAKE_ENV=ci bundle exec rake lint
 rvm:
   - 1.9.3
   - 2.0.0
