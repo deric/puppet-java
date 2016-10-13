@@ -1,6 +1,6 @@
 # puppet-java_binary
 
-[![Puppet Forge](http://img.shields.io/puppetforge/v/deric/java.svg)](https://forge.puppetlabs.com/deric/java)
+[![Puppet Forge](http://img.shields.io/puppetforge/v/deric/java_binary.svg)](https://forge.puppetlabs.com/deric/java_binary)
 [![Build Status](https://travis-ci.org/deric/puppet-java.png?branch=master)](https://travis-ci.org/deric/puppet-java)
 
 
