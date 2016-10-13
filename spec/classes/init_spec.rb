@@ -98,6 +98,7 @@ describe 'java_binary', :type => :class do
       :operatingsystem => 'Ubuntu',
       :lsbdistid => 'Ubuntu',
       :lsbdistcodename => 'vivid',
+      :lsbdistrelease => '15.04',
       :operatingsystemrelease => '15.04',
       :architecture => 'amd64',
       :puppetversion => Puppet.version,
