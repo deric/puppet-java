@@ -1,5 +1,5 @@
 # Repositories with binary Java packages
-class java::repo(
+class java_binary::repo(
   $repository,
   $release,
   ) {

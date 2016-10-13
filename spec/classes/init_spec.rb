@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'java', :type => :class do
+describe 'java_binary', :type => :class do
 
   context 'select openjdk for Centos 5.8' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '5.8'} }
@@ -275,7 +275,7 @@ describe 'java', :type => :class do
       'release'               => 'java9',
       'accept_oracle_license' => true,
     } }
-    it { should contain_class('java::repo') }
+    it { should contain_class('java_binary::repo') }
     it { should contain_class('apt') }
     it { should contain_package('java').with_name('oracle-java9-installer') }
     it { should contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }

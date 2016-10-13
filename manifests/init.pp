@@ -1,7 +1,7 @@
 # Class: java
 # ===========================
 #
-class java(
+class java_binary(
   $distribution          = 'jdk',
   $version               = 'present',
   $package               = undef,
@@ -13,15 +13,15 @@ class java(
   $accept_oracle_license = false,
 ) {
 
-  include java::params
+  include java_binary::params
 
   validate_re($version, 'present|installed|latest|^[.+_0-9a-zA-Z:-]+$')
 
-  if has_key($java::params::java, $distribution) {
-    $default_package_name     = $java::params::java[$distribution]['package']
-    $default_alternative      = $java::params::java[$distribution]['alternative']
-    $default_alternative_path = $java::params::java[$distribution]['alternative_path']
-    $java_home                = $java::params::java[$distribution]['java_home']
+  if has_key($java_binary::params::java, $distribution) {
+    $default_package_name     = $java_binary::params::java[$distribution]['package']
+    $default_alternative      = $java_binary::params::java[$distribution]['alternative']
+    $default_alternative_path = $java_binary::params::java[$distribution]['alternative_path']
+    $java_home                = $java_binary::params::java[$distribution]['java_home']
   } else {
     if ($distribution == 'oracle'){
       $default_package_name = "oracle-${release}-installer"
@@ -73,19 +73,19 @@ class java(
     default    => '--jre'
   }
 
-  anchor { 'java::begin:': }
+  anchor { 'java_binary::begin:': }
   ->
-  class {'java::repo':
+  class {'java_binary::repo':
     repository => $repository,
     release    => $release,
   }
   ->
-  anchor { 'java::package': }
+  anchor { 'java_binary::package': }
   case $::osfamily {
     'Debian': {
       # Needed for update-java-alternatives
       ensure_resource('package', ['java-common'],
-        {'ensure' => present, 'before' => Anchor['java::package']}
+        {'ensure' => present, 'before' => Anchor['java_binary::package']}
       )
       if ($distribution == 'oracle'){
         if $accept_oracle_license {
@@ -109,7 +109,7 @@ class java(
         package { 'java':
           ensure => $version,
           name   => $use_java_package_name,
-          before => Anchor['java::package']
+          before => Anchor['java_binary::package']
         }
       }
     }
@@ -118,13 +118,13 @@ class java(
       package { 'java':
         ensure => $version,
         name   => $use_java_package_name,
-        before => Anchor['java::package']
+        before => Anchor['java_binary::package']
       }
     }
   }
-  class { 'java::config':
-    require => Anchor['java::package']
+  class { 'java_binary::config':
+    require => Anchor['java_binary::package']
   }
-  -> anchor { 'java::end': }
+  -> anchor { 'java_binary::end': }
 
 }

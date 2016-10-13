@@ -1,4 +1,4 @@
-# Class: java::params
+# Class: java_binary::params
 #
 # This class builds a hash of JDK/JRE packages and (for Debian)
 # alternatives.  For wheezy/precise, we provide Oracle JDK/JRE
@@ -10,7 +10,7 @@
 # Because the alternatives system makes it very difficult to tell
 # which Java alternative is enabled, we hard code the path to bin/java
 # for the config class to test if it is enabled.
-class java::params {
+class java_binary::params {
 
   case $::osfamily {
     'RedHat': {

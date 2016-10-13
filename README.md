@@ -1,4 +1,4 @@
-# puppet-java
+# puppet-java_binary
 
 [![Puppet Forge](http://img.shields.io/puppetforge/v/deric/java.svg)](https://forge.puppetlabs.com/deric/java)
 [![Build Status](https://travis-ci.org/deric/puppet-java.png?branch=master)](https://travis-ci.org/deric/puppet-java)
@@ -9,7 +9,7 @@ Java module](https://github.com/puppetlabs/puppetlabs-java) this module installs
 
 Usage:
 ```puppet
-class{'java':
+class{'java_binary':
   repository            => 'webupd8team',
   distribution          => 'oracle',
   release               => 'java8',
