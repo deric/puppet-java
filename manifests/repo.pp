@@ -1,6 +1,6 @@
 # Repositories with binary Java packages
 class java_binary::repo(
-  $repository,
+  $repository = 'webupd8team',
   $release,
   ) {
 
