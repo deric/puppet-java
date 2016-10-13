@@ -69,6 +69,7 @@ describe 'java_binary', :type => :class do
       :lsbdistid => 'Debian',
       :operatingsystemrelease => '6.0.5',
       :architecture => 'amd64',
+      :puppetversion => Puppet.version,
     } }
 
     context 'select default for Debian Squeeze' do
@@ -99,6 +100,7 @@ describe 'java_binary', :type => :class do
       :lsbdistcodename => 'vivid',
       :operatingsystemrelease => '15.04',
       :architecture => 'amd64',
+      :puppetversion => Puppet.version,
     } }
 
     context 'select jdk for Ubuntu Vivid (15.04)' do
