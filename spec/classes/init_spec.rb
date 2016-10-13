@@ -67,20 +67,6 @@ describe 'java_binary', :type => :class do
     it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set java-1.7.0-openjdk-amd64 --jre') }
   end
 
-  context 'select Oracle JRE for Debian Wheezy' do
-    let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1', :architecture => 'amd64',} }
-    let(:params) { { 'distribution' => 'oracle-jre' } }
-    it { should contain_package('java').with_name('oracle-j2re1.7') }
-    it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set j2re1.7-oracle --jre') }
-  end
-
-  context 'select OpenJDK JRE for Debian Wheezy' do
-    let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1', :architecture => 'amd64',} }
-    let(:params) { { 'distribution' => 'jre' } }
-    it { should contain_package('java').with_name('openjdk-7-jre-headless') }
-    it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set java-1.7.0-openjdk-amd64 --jre-headless') }
-  end
-
   context 'select default for Debian Squeeze' do
     let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'squeeze', :operatingsystemrelease => '6.0.5', :architecture => 'amd64',} }
     it { should contain_package('java').with_name('openjdk-6-jdk') }
@@ -209,63 +195,91 @@ describe 'java_binary', :type => :class do
     end
   end
 
-  context 'select Oracle JRE for Debian Wheezy' do
-    let(:facts) { {
-      :osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistid => 'Debian',
-      :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1',
-      :architecture => 'amd64',
-    } }
 
-    let(:params) { {
-      'repository'            => 'webupd8team',
-      'distribution'          => 'oracle',
-      'release'               => 'java7',
-      'accept_oracle_license' => true,
-    } }
+  context 'Debian Wheezy' do
 
-    it { should compile.with_all_deps }
-    it { should contain_class('apt') }
-    it { should contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }
-    context 'java 7' do
-      it { should contain_package('java').with_name('oracle-java7-installer') }
-    end
-
-    context 'without accepting license' do
-      let(:params) { {
-        'repository'            => 'webupd8team',
-        'distribution'          => 'oracle',
-        'accept_oracle_license' => false,
-      } }
-      it {
-        expect { should raise_error(Puppet::Error) }
+    let(:facts) do
+      {
+        :osfamily => 'Debian',
+        :operatingsystem => 'Debian',
+        :lsbdistcodename => 'wheezy',
+        :lsbdistrelease => '7.1',
+        :lsbdistid => 'Debian',
+        :operatingsystemrelease => '7.1',
+        :architecture => 'amd64',
       }
     end
 
-    context 'java 7 as default' do
+    context 'select Oracle JRE for Debian Wheezy' do
+      let(:params) { { 'distribution' => 'oracle-jre' } }
+      it { is_expected.to contain_package('java').with_name('oracle-j2re1.7') }
+      it { is_expected.to contain_exec('update-java-alternatives').with_command('update-java-alternatives --set j2re1.7-oracle --jre') }
+    end
+
+    context 'select OpenJDK JRE for Debian Wheezy' do
+      let(:params) { { 'distribution' => 'jre' } }
+      it { should contain_package('java').with_name('openjdk-7-jre-headless') }
+      it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set java-1.7.0-openjdk-amd64 --jre-headless') }
+    end
+
+    context 'select Oracle JRE for Debian Wheezy' do
+
       let(:params) { {
         'repository'            => 'webupd8team',
         'distribution'          => 'oracle',
         'release'               => 'java7',
         'accept_oracle_license' => true,
       } }
-      it { should contain_package('java').with_name('oracle-java7-installer') }
+
+      it { is_expected.to compile.with_all_deps }
+      it { should contain_class('apt') }
+      it { should contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }
+      context 'java 7' do
+        it { should contain_package('java').with_name('oracle-java7-installer') }
+      end
+
+      context 'without accepting license' do
+        let(:params) { {
+          'repository'            => 'webupd8team',
+          'distribution'          => 'oracle',
+          'accept_oracle_license' => false,
+        } }
+        it {
+          expect { should raise_error(Puppet::Error) }
+        }
+      end
+
+      context 'java 7 as default' do
+        let(:params) { {
+          'repository'            => 'webupd8team',
+          'distribution'          => 'oracle',
+          'release'               => 'java7',
+          'accept_oracle_license' => true,
+        } }
+        it { should contain_package('java').with_name('oracle-java7-installer') }
+      end
+
+      context 'java 8' do
+        let(:params) { {
+          'repository'            => 'webupd8team',
+          'distribution'          => 'oracle',
+          'release'               => 'java8',
+          'accept_oracle_license' => true,
+        } }
+        it { should contain_package('java').with_name('oracle-java8-installer') }
+      end
     end
 
-    context 'java 8' do
-      let(:params) { {
-        'repository'            => 'webupd8team',
-        'distribution'          => 'oracle',
-        'release'               => 'java8',
-        'accept_oracle_license' => true,
-      } }
-      it { should contain_package('java').with_name('oracle-java8-installer') }
-    end
   end
+
 
   context 'select Oracle JDK for Debian Jessie' do
     let(:facts) { {
-      :osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistid => 'Debian',
-      :lsbdistcodename => 'jessie', :operatingsystemrelease => '8.1',
+      :osfamily => 'Debian',
+      :operatingsystem => 'Debian',
+      :lsbdistid => 'Debian',
+      :lsbdistcodename => 'jessie',
+      :operatingsystemrelease => '8.1',
       :architecture => 'amd64',
     } }
 
