@@ -207,6 +207,7 @@ describe 'java_binary', :type => :class do
         :lsbdistid => 'Debian',
         :operatingsystemrelease => '7.1',
         :architecture => 'amd64',
+        :puppetversion => Puppet.version,
       }
     end
 
@@ -281,6 +282,7 @@ describe 'java_binary', :type => :class do
       :lsbdistcodename => 'jessie',
       :operatingsystemrelease => '8.1',
       :architecture => 'amd64',
+      :puppetversion => Puppet.version,
     } }
 
     let(:params) { {
