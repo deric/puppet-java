@@ -1,5 +1,9 @@
 bundler_args: --without development
 sudo: false
+addons:
+  apt:
+    packages:
+      - lsb-release
 cache:
   - bundler
   - directories:
@@ -11,7 +15,7 @@ script:
 rvm:
   - 1.9.3
   - 2.0.0
-  - 2.1.5
+  - 2.1.10
   #- 2.2.2 puppet 3 won't be compatible with ruby 2.2: https://tickets.puppetlabs.com/browse/PUP-3796
 env:
   global:
@@ -25,6 +29,7 @@ env:
     - PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes FUTURE_PARSER=yes
     - PUPPET_VERSION="~> 3.8.0" STRICT_VARIABLES=yes FUTURE_PARSER=yes
     - PUPPET_VERSION="~> 4.3.0" STRICT_VARIABLES=yes
+    - PUPPET_VERSION="~> 4.7.0" STRICT_VARIABLES=yes
 matrix:
   exclude:
     - rvm: 2.1.5
