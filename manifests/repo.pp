@@ -46,5 +46,6 @@ class java_binary::repo(
         default: {}
       }
     }
+    default: {}
   }
 }
