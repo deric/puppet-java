@@ -4,61 +4,61 @@ describe 'java_binary', :type => :class do
 
   context 'select openjdk for Centos 5.8' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '5.8'} }
-    it { should contain_package('java').with_name('java-1.6.0-openjdk-devel') }
+    it { is_expected.to contain_package('java').with_name('java-1.6.0-openjdk-devel') }
   end
 
   context 'select openjdk for Centos 6.3' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '6.3'} }
-    it { should contain_package('java').with_name('java-1.7.0-openjdk-devel') }
+    it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk-devel') }
   end
 
   context 'select openjdk for Centos 6.2' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '6.2'} }
-    it { should contain_package('java').with_name('java-1.6.0-openjdk-devel') }
-    it { should_not contain_exec('update-java-alternatives') }
+    it { is_expected.to contain_package('java').with_name('java-1.6.0-openjdk-devel') }
+    it { is_expected.to_not contain_exec('update-java-alternatives') }
   end
 
   context 'select Oracle JRE with alternatives for Centos 6.3' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '6.3'} }
     let(:params) { { 'package' => 'jre', 'java_alternative' => '/usr/bin/java', 'java_alternative_path' => '/usr/java/jre1.7.0_67/bin/java'} }
-    it { should contain_package('java').with_name('jre') }
-    it { should contain_exec('create-java-alternatives').with_command('alternatives --install /usr/bin/java java /usr/java/jre1.7.0_67/bin/java 20000') }
-    it { should contain_exec('update-java-alternatives').with_command('alternatives --set java /usr/java/jre1.7.0_67/bin/java') }
+    it { is_expected.to contain_package('java').with_name('jre') }
+    it { is_expected.to contain_exec('create-java-alternatives').with_command('alternatives --install /usr/bin/java java /usr/java/jre1.7.0_67/bin/java 20000') }
+    it { is_expected.to contain_exec('update-java-alternatives').with_command('alternatives --set java /usr/java/jre1.7.0_67/bin/java') }
   end
 
   context 'select openjdk for Fedora 20' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Fedora', :operatingsystemrelease => '20'} }
-    it { should contain_package('java').with_name('java-1.7.0-openjdk-devel') }
+    it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk-devel') }
   end
 
   context 'select openjdk for Fedora 21' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Fedora', :operatingsystemrelease => '21'} }
-    it { should contain_package('java').with_name('java-1.8.0-openjdk-devel') }
+    it { is_expected.to contain_package('java').with_name('java-1.8.0-openjdk-devel') }
   end
 
   context 'select passed value for Fedora 20' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Fedora', :operatingsystemrelease => '20'} }
     let(:params) { { 'distribution' => 'jre' } }
-    it { should contain_package('java').with_name('java-1.7.0-openjdk') }
+    it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk') }
   end
 
   context 'select passed value for Fedora 21' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Fedora', :operatingsystemrelease => '21'} }
     let(:params) { { 'distribution' => 'jre' } }
-    it { should contain_package('java').with_name('java-1.8.0-openjdk') }
+    it { is_expected.to contain_package('java').with_name('java-1.8.0-openjdk') }
   end
 
   context 'select passed value for Centos 5.3' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '5.3'} }
     let(:params) { { 'package' => 'jdk' } }
-    it { should contain_package('java').with_name('jdk') }
-    it { should_not contain_exec('update-java-alternatives') }
+    it { is_expected.to contain_package('java').with_name('jdk') }
+    it { is_expected.to_not contain_exec('update-java-alternatives') }
   end
 
   context 'select default for Centos 5.3' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '5.3'} }
-    it { should contain_package('java').with_name('java-1.6.0-openjdk-devel') }
-    it { should_not contain_exec('update-java-alternatives') }
+    it { is_expected.to contain_package('java').with_name('java-1.6.0-openjdk-devel') }
+    it { is_expected.to_not contain_exec('update-java-alternatives') }
   end
 
   context 'Debian Squeeze' do
@@ -115,51 +115,51 @@ describe 'java_binary', :type => :class do
 
   context 'select openjdk for Amazon Linux' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Amazon', :operatingsystemrelease => '3.4.43-43.43.amzn1.x86_64'} }
-    it { should contain_package('java').with_name('java-1.7.0-openjdk-devel') }
+    it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk-devel') }
   end
 
   context 'select passed value for Amazon Linux' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Amazon', :operatingsystemrelease => '5.3.4.43-43.43.amzn1.x86_64'} }
     let(:params) { { 'distribution' => 'jre' } }
-    it { should contain_package('java').with_name('java-1.7.0-openjdk') }
+    it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk') }
   end
 
   context 'select openjdk for Oracle Linux' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'OracleLinux', :operatingsystemrelease => '6.4'} }
-    it { should contain_package('java').with_name('java-1.7.0-openjdk-devel') }
+    it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk-devel') }
   end
 
   context 'select openjdk for Oracle Linux 6.2' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'OracleLinux', :operatingsystemrelease => '6.2'} }
-    it { should contain_package('java').with_name('java-1.6.0-openjdk-devel') }
+    it { is_expected.to contain_package('java').with_name('java-1.6.0-openjdk-devel') }
   end
 
   context 'select passed value for Oracle Linux' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'OracleLinux', :operatingsystemrelease => '6.3'} }
     let(:params) { { 'distribution' => 'jre' } }
-    it { should contain_package('java').with_name('java-1.7.0-openjdk') }
+    it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk') }
   end
 
   context 'select passed value for Scientific Linux' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Scientific', :operatingsystemrelease => '6.4'} }
     let(:params) { { 'distribution' => 'jre' } }
-    it { should contain_package('java').with_name('java-1.7.0-openjdk') }
+    it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk') }
   end
 
   context 'select default for OpenSUSE 12.3' do
     let(:facts) { {:osfamily => 'Suse', :operatingsystem => 'OpenSUSE', :operatingsystemrelease => '12.3'}}
-    it { should contain_package('java').with_name('java-1_7_0-openjdk-devel')}
+    it { is_expected.to contain_package('java').with_name('java-1_7_0-openjdk-devel')}
   end
 
   context 'select jdk for OpenBSD' do
     let(:facts) { {:osfamily => 'OpenBSD'} }
-    it { should contain_package('java').with_name('jdk') }
+    it { is_expected.to contain_package('java').with_name('jdk') }
   end
 
   context 'select jre for OpenBSD' do
     let(:facts) { {:osfamily => 'OpenBSD'} }
     let(:params) { { 'distribution' => 'jre' } }
-    it { should contain_package('java').with_name('jre') }
+    it { is_expected.to contain_package('java').with_name('jre') }
   end
 
   describe 'incompatible OSs' do
@@ -196,7 +196,7 @@ describe 'java_binary', :type => :class do
       },
     ].each do |facts|
       let(:facts) { facts }
-      it "should fail on #{facts[:operatingsystem]} #{facts[:operatingsystemrelease]}" do
+      it "is_expected.to fail on #{facts[:operatingsystem]} #{facts[:operatingsystemrelease]}" do
         expect { catalogue }.to raise_error Puppet::Error, /unsupported platform/
       end
     end
@@ -231,8 +231,8 @@ describe 'java_binary', :type => :class do
 
     context 'select random alternative for Debian Wheezy' do
       let(:params) { { 'java_alternative' => 'bananafish' } }
-      it { should contain_package('java').with_name('openjdk-7-jdk') }
-      it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set bananafish --jre') }
+      it { is_expected.to contain_package('java').with_name('openjdk-7-jdk') }
+      it { is_expected.to contain_exec('update-java-alternatives').with_command('update-java-alternatives --set bananafish --jre') }
     end
 
     context 'select OpenJDK JRE for Debian Wheezy' do
@@ -251,10 +251,10 @@ describe 'java_binary', :type => :class do
       } }
 
       it { is_expected.to compile.with_all_deps }
-      it { should contain_class('apt') }
-      it { should contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }
+      it { is_expected.to contain_class('apt') }
+      it { is_expected.to contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }
       context 'java 7' do
-        it { should contain_package('java').with_name('oracle-java7-installer') }
+        it { is_expected.to contain_package('java').with_name('oracle-java7-installer') }
       end
 
       context 'without accepting license' do
@@ -264,7 +264,7 @@ describe 'java_binary', :type => :class do
           'accept_oracle_license' => false,
         } }
         it {
-          expect { should raise_error(Puppet::Error) }
+          expect { is_expected.to raise_error(Puppet::Error) }
         }
       end
 
@@ -275,7 +275,7 @@ describe 'java_binary', :type => :class do
           'release'               => 'java7',
           'accept_oracle_license' => true,
         } }
-        it { should contain_package('java').with_name('oracle-java7-installer') }
+        it { is_expected.to contain_package('java').with_name('oracle-java7-installer') }
       end
 
       context 'java 8' do
@@ -285,7 +285,7 @@ describe 'java_binary', :type => :class do
           'release'               => 'java8',
           'accept_oracle_license' => true,
         } }
-        it { should contain_package('java').with_name('oracle-java8-installer') }
+        it { is_expected.to contain_package('java').with_name('oracle-java8-installer') }
       end
     end
 
@@ -309,10 +309,10 @@ describe 'java_binary', :type => :class do
       'release'               => 'java9',
       'accept_oracle_license' => true,
     } }
-    it { should contain_class('java_binary::repo') }
-    it { should contain_class('apt') }
-    it { should contain_package('java').with_name('oracle-java9-installer') }
-    it { should contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }
+    it { is_expected.to contain_class('java_binary::repo') }
+    it { is_expected.to contain_class('apt') }
+    it { is_expected.to contain_package('java').with_name('oracle-java9-installer') }
+    it { is_expected.to contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }
   end
 
 end
