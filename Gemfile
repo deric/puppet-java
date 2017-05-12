@@ -18,4 +18,5 @@ end
 
 group :development do
   gem 'puppet-blacksmith',  '~> 3.0'
+  gem 'rubocop'
 end

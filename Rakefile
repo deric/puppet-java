@@ -18,6 +18,12 @@ task :validate do
   end
 end
 
+unless ENV['RAKE_ENV'] == 'ci'
+  # rubocop is not needed on travis (requires ruby >= 2.0)
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new
+end
+
 
 exclude_paths = [
   "bundle/**/*",
