@@ -12,6 +12,9 @@ if RUBY_VERSION =~ /^1\.9\./ or RUBY_VERSION =~ /^1\.8\./
   gem 'json_pure', '< 2.0.0'
   gem 'fog-google', '< 0.1.1'
 end
+if RUBY_VERSION < "2.1.0"
+  gem 'nokogiri', '< 1.7.0'
+end
 
 group :development do
   gem 'puppet-blacksmith',  '~> 3.0'
