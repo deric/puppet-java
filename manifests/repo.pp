@@ -1,7 +1,7 @@
 # Repositories with binary Java packages
 class java_binary::repo(
-  $repository = 'webupd8team',
   $release,
+  $repository = 'webupd8team',
   ) {
 
   case $::osfamily {
@@ -35,8 +35,7 @@ class java_binary::repo(
               'server' => 'keyserver.ubuntu.com',
             },
           }
-          ->
-          Class['apt::update']
+          -> Class['apt::update']
 
           exec{'oracle-license':
             command =>

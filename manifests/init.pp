@@ -74,13 +74,11 @@ class java_binary(
   }
 
   anchor { 'java_binary::begin:': }
-  ->
-  class {'java_binary::repo':
+  -> class {'java_binary::repo':
     repository => $repository,
     release    => $release,
   }
-  ->
-  anchor { 'java_binary::package': }
+  -> anchor { 'java_binary::package': }
   case $::osfamily {
     'Debian': {
       # Needed for update-java-alternatives

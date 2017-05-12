@@ -28,8 +28,7 @@ exclude_paths = [
 
 Rake::Task[:lint].clear
 PuppetLint::RakeTask.new :lint do |config|
-    config.ignore_paths = exclude_paths
-    config.log_format = '%{path}:%{linenumber}:%{KIND}: %{message}'
+  config.ignore_paths = exclude_paths
 end
 
 # use librarian-puppet to manage fixtures instead of .fixtures.yml
