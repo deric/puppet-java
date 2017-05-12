@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'java_binary', :type => :class do
-
   context 'select openjdk for Centos 5.8' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '5.8'} }
     it { is_expected.to contain_package('java').with_name('java-1.6.0-openjdk-devel') }
@@ -62,7 +61,8 @@ describe 'java_binary', :type => :class do
   end
 
   context 'Debian Squeeze' do
-    let(:facts) { {
+    let(:facts) do
+      {
       :osfamily => 'Debian',
       :operatingsystem => 'Debian',
       :lsbdistcodename => 'squeeze',
@@ -70,7 +70,8 @@ describe 'java_binary', :type => :class do
       :operatingsystemrelease => '6.0.5',
       :architecture => 'amd64',
       :puppetversion => Puppet.version,
-    } }
+    }
+    end
 
     context 'select default for Debian Squeeze' do
       it { is_expected.to contain_package('java').with_name('openjdk-6-jdk') }
@@ -91,7 +92,8 @@ describe 'java_binary', :type => :class do
   end
 
   context 'Ubuntu Vivid (15.04)' do
-    let(:facts) { {
+    let(:facts) do
+      {
       :osfamily => 'Debian',
       :operatingsystem => 'Ubuntu',
       :lsbdistid => 'Ubuntu',
@@ -100,7 +102,8 @@ describe 'java_binary', :type => :class do
       :operatingsystemrelease => '15.04',
       :architecture => 'amd64',
       :puppetversion => Puppet.version,
-    } }
+    }
+    end
 
     context 'select jdk for Ubuntu Vivid (15.04)' do
       let(:params) { { 'distribution' => 'jdk' } }
@@ -204,7 +207,6 @@ describe 'java_binary', :type => :class do
 
 
   context 'Debian Wheezy' do
-
     let(:facts) do
       {
         :osfamily => 'Debian',
@@ -242,13 +244,14 @@ describe 'java_binary', :type => :class do
     end
 
     context 'select Oracle JRE for Debian Wheezy' do
-
-      let(:params) { {
+      let(:params) do
+        {
         'repository'            => 'webupd8team',
         'distribution'          => 'oracle',
         'release'               => 'java7',
         'accept_oracle_license' => true,
-      } }
+      }
+      end
 
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('apt') }
@@ -258,41 +261,47 @@ describe 'java_binary', :type => :class do
       end
 
       context 'without accepting license' do
-        let(:params) { {
+        let(:params) do
+          {
           'repository'            => 'webupd8team',
           'distribution'          => 'oracle',
           'accept_oracle_license' => false,
-        } }
+        }
+        end
         it {
           expect { is_expected.to raise_error(Puppet::Error) }
         }
       end
 
       context 'java 7 as default' do
-        let(:params) { {
+        let(:params) do
+          {
           'repository'            => 'webupd8team',
           'distribution'          => 'oracle',
           'release'               => 'java7',
           'accept_oracle_license' => true,
-        } }
+        }
+        end
         it { is_expected.to contain_package('java').with_name('oracle-java7-installer') }
       end
 
       context 'java 8' do
-        let(:params) { {
+        let(:params) do
+          {
           'repository'            => 'webupd8team',
           'distribution'          => 'oracle',
           'release'               => 'java8',
           'accept_oracle_license' => true,
-        } }
+        }
+        end
         it { is_expected.to contain_package('java').with_name('oracle-java8-installer') }
       end
     end
-
   end
 
   context 'select Oracle JDK for Debian Jessie' do
-    let(:facts) { {
+    let(:facts) do
+      {
       :osfamily => 'Debian',
       :operatingsystem => 'Debian',
       :lsbdistid => 'Debian',
@@ -300,14 +309,17 @@ describe 'java_binary', :type => :class do
       :operatingsystemrelease => '8.1',
       :architecture => 'amd64',
       :puppetversion => Puppet.version,
-    } }
+    }
+    end
 
-    let(:params) { {
+    let(:params) do
+      {
       'distribution'          => 'oracle',
       'repository'            => 'webupd8team',
       'release'               => 'java9',
       'accept_oracle_license' => true,
-    } }
+    }
+    end
     it { is_expected.to contain_class('java_binary::repo') }
     it { is_expected.to contain_class('apt') }
     it { is_expected.to contain_package('java').with_name('oracle-java9-installer') }
@@ -315,7 +327,8 @@ describe 'java_binary', :type => :class do
   end
 
   context 'Debian Stretch' do
-    let(:facts) { {
+    let(:facts) do
+      {
       :osfamily => 'Debian',
       :operatingsystem => 'Debian',
       :lsbdistid => 'Debian',
@@ -323,14 +336,16 @@ describe 'java_binary', :type => :class do
       :operatingsystemrelease => '9',
       :architecture => 'amd64',
       :puppetversion => Puppet.version,
-    } }
+    }
+    end
 
-    let(:params) { {
+    let(:params) do
+      {
       'release'               => 'java8',
-    } }
+    }
+    end
     it { is_expected.to contain_class('java_binary::repo') }
     it { is_expected.to contain_class('apt') }
     it { is_expected.to contain_package('java').with_name('openjdk-8-jdk') }
   end
-
 end

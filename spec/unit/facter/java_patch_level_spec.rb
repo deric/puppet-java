@@ -1,9 +1,9 @@
 require "spec_helper"
 
 describe Facter::Util::Fact do
-  before {
+  before do
     Facter.clear
-  }
+  end
 
   describe "java_patch_level" do
     context "if java is installed" do

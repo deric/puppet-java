@@ -1,9 +1,9 @@
 require "spec_helper"
 
 describe Facter::Util::Fact do
-  before {
+  before do
     Facter.clear
-  }
+  end
 
   describe "java_version" do
     context 'returns java version when java present' do
