@@ -291,7 +291,6 @@ describe 'java_binary', :type => :class do
 
   end
 
-
   context 'select Oracle JDK for Debian Jessie' do
     let(:facts) { {
       :osfamily => 'Debian',
@@ -313,6 +312,25 @@ describe 'java_binary', :type => :class do
     it { is_expected.to contain_class('apt') }
     it { is_expected.to contain_package('java').with_name('oracle-java9-installer') }
     it { is_expected.to contain_apt__source('webupd8team-java').with_location('http://ppa.launchpad.net/webupd8team/java/ubuntu') }
+  end
+
+  context 'Debian Stretch' do
+    let(:facts) { {
+      :osfamily => 'Debian',
+      :operatingsystem => 'Debian',
+      :lsbdistid => 'Debian',
+      :lsbdistcodename => 'stretch',
+      :operatingsystemrelease => '9',
+      :architecture => 'amd64',
+      :puppetversion => Puppet.version,
+    } }
+
+    let(:params) { {
+      'release'               => 'java8',
+    } }
+    it { is_expected.to contain_class('java_binary::repo') }
+    it { is_expected.to contain_class('apt') }
+    it { is_expected.to contain_package('java').with_name('openjdk-8-jdk') }
   end
 
 end

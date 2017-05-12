@@ -124,7 +124,7 @@ class java_binary::params {
               },
           }
         }
-        'jessie', 'vivid', 'wily', 'xenial': {
+        'jessie', 'vivid', 'wily', 'xenial', 'stretch': {
           $java =  {
             'jdk' => {
               'package'          => 'openjdk-8-jdk',
