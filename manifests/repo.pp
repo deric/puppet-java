@@ -4,21 +4,21 @@ class java_binary::repo(
   $repository = 'webupd8team',
   ) {
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
       case $repository {
         'webupd8team' :{
-          case $::operatingsystem {
+          case $facts['os']['name'] {
             'Debian': {
               $dist_name = 'trusty'
             }
 
             'Ubuntu': {
-              $dist_name = $::lsbdistcodename
+              $dist_name = $facts['os']['distro']['codename']
             }
 
             default: {
-              fail "Unsupported operatingsystem ${::operatingsystem}"
+              fail "Unsupported operatingsystem ${facts['os']['name']}"
             }
           }
 

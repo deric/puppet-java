@@ -1,24 +1,65 @@
 require 'spec_helper'
 
 describe 'java_binary', :type => :class do
+
   context 'select openjdk for Centos 5.8' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '5.8'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Centos',
+          :architecture => 'amd64',
+          :release => { :major => '5', :minor => '8', :full => '5.8' },
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('java-1.6.0-openjdk-devel') }
   end
 
   context 'select openjdk for Centos 6.3' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '6.3'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Centos',
+          :architecture => 'amd64',
+          :release => { :major => '6', :minor => '3', :full => '6.3' },
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk-devel') }
   end
 
   context 'select openjdk for Centos 6.2' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '6.2'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Centos',
+          :architecture => 'amd64',
+          :release => { :major => '6', :minor => '2', :full => '6.2' },
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('java-1.6.0-openjdk-devel') }
     it { is_expected.to_not contain_exec('update-java-alternatives') }
   end
 
   context 'select Oracle JRE with alternatives for Centos 6.3' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '6.3'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Centos',
+          :architecture => 'amd64',
+          :release => { :major => '6', :minor => '3', :full => '6.3' },
+        },
+      }
+    end
     let(:params) { { 'package' => 'jre', 'java_alternative' => '/usr/bin/java', 'java_alternative_path' => '/usr/java/jre1.7.0_67/bin/java'} }
     it { is_expected.to contain_package('java').with_name('jre') }
     it { is_expected.to contain_exec('create-java-alternatives').with_command('alternatives --install /usr/bin/java java /usr/java/jre1.7.0_67/bin/java 20000') }
@@ -26,36 +67,96 @@ describe 'java_binary', :type => :class do
   end
 
   context 'select openjdk for Fedora 20' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Fedora', :operatingsystemrelease => '20'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Fedora',
+          :architecture => 'amd64',
+          :release => { :major => '20', :minor => '0', :full => '20.0' },
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk-devel') }
   end
 
   context 'select openjdk for Fedora 21' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Fedora', :operatingsystemrelease => '21'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Fedora',
+          :architecture => 'amd64',
+          :release => { :major => '21', :minor => '0', :full => '21.0' },
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('java-1.8.0-openjdk-devel') }
   end
 
   context 'select passed value for Fedora 20' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Fedora', :operatingsystemrelease => '20'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Fedora',
+          :architecture => 'amd64',
+          :release => { :major => '20', :minor => '0', :full => '20.0' },
+        },
+      }
+    end
     let(:params) { { 'distribution' => 'jre' } }
     it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk') }
   end
 
   context 'select passed value for Fedora 21' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Fedora', :operatingsystemrelease => '21'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Fedora',
+          :architecture => 'amd64',
+          :release => { :major => '21', :minor => '0', :full => '21.0' },
+        },
+      }
+    end
     let(:params) { { 'distribution' => 'jre' } }
     it { is_expected.to contain_package('java').with_name('java-1.8.0-openjdk') }
   end
 
   context 'select passed value for Centos 5.3' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '5.3'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Centos',
+          :architecture => 'amd64',
+          :release => { :major => '5', :minor => '3', :full => '5.3' },
+        },
+      }
+    end
     let(:params) { { 'package' => 'jdk' } }
     it { is_expected.to contain_package('java').with_name('jdk') }
     it { is_expected.to_not contain_exec('update-java-alternatives') }
   end
 
   context 'select default for Centos 5.3' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Centos', :operatingsystemrelease => '5.3'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Centos',
+          :architecture => 'amd64',
+          :release => { :major => '5', :minor => '3', :full => '5.3' },
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('java-1.6.0-openjdk-devel') }
     it { is_expected.to_not contain_exec('update-java-alternatives') }
   end
@@ -63,14 +164,18 @@ describe 'java_binary', :type => :class do
   context 'Debian Squeeze' do
     let(:facts) do
       {
-      :osfamily => 'Debian',
-      :operatingsystem => 'Debian',
-      :lsbdistcodename => 'squeeze',
-      :lsbdistid => 'Debian',
-      :operatingsystemrelease => '6.0.5',
-      :architecture => 'amd64',
-      :puppetversion => Puppet.version,
-    }
+        # still old fact is needed due to this
+        # https://github.com/puppetlabs/puppetlabs-apt/blob/master/manifests/params.pp#L3
+        :osfamily => 'Debian',
+        :os => {
+          :family => 'Debian',
+          :name => 'Debian',
+          :architecture => 'amd64',
+          :distro => { :codename => 'squeeze' },
+          :release => { :major => '6', :minor => '0', :full => '6.0.5' },
+        },
+        :puppetversion => Puppet.version,
+      }
     end
 
     context 'select default for Debian Squeeze' do
@@ -94,15 +199,18 @@ describe 'java_binary', :type => :class do
   context 'Ubuntu Vivid (15.04)' do
     let(:facts) do
       {
-      :osfamily => 'Debian',
-      :operatingsystem => 'Ubuntu',
-      :lsbdistid => 'Ubuntu',
-      :lsbdistcodename => 'vivid',
-      :lsbdistrelease => '15.04',
-      :operatingsystemrelease => '15.04',
-      :architecture => 'amd64',
-      :puppetversion => Puppet.version,
-    }
+        # still old fact is needed due to this
+        # https://github.com/puppetlabs/puppetlabs-apt/blob/master/manifests/params.pp#L3
+        :osfamily => 'Debian',
+        :os => {
+          :family => 'Debian',
+          :name => 'Ubuntu',
+          :architecture => 'amd64',
+          :distro => { :codename => 'vivid' },
+          :release => { :major => '15', :minor => '04', :full => '15.04' },
+        },
+        :puppetversion => Puppet.version,
+      }
     end
 
     context 'select jdk for Ubuntu Vivid (15.04)' do
@@ -117,50 +225,138 @@ describe 'java_binary', :type => :class do
   end
 
   context 'select openjdk for Amazon Linux' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Amazon', :operatingsystemrelease => '3.4.43-43.43.amzn1.x86_64'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Amazon',
+          :architecture => 'amd64',
+          :release => { :major => '3', :minor => '4', :full => '3.4.43-43.43.amzn1.x86_64' },
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk-devel') }
   end
 
   context 'select passed value for Amazon Linux' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Amazon', :operatingsystemrelease => '5.3.4.43-43.43.amzn1.x86_64'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Amazon',
+          :architecture => 'amd64',
+          :release => { :major => '5', :minor => '3', :full => '5.3.43-43.43.amzn1.x86_64' },
+        },
+      }
+    end
     let(:params) { { 'distribution' => 'jre' } }
     it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk') }
   end
 
   context 'select openjdk for Oracle Linux' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'OracleLinux', :operatingsystemrelease => '6.4'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'OracleLinux',
+          :architecture => 'amd64',
+          :release => { :major => '6', :minor => '4', :full => '6.4' },
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk-devel') }
   end
 
   context 'select openjdk for Oracle Linux 6.2' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'OracleLinux', :operatingsystemrelease => '6.2'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'OracleLinux',
+          :architecture => 'amd64',
+          :release => { :major => '6', :minor => '2', :full => '6.2' },
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('java-1.6.0-openjdk-devel') }
   end
 
   context 'select passed value for Oracle Linux' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'OracleLinux', :operatingsystemrelease => '6.3'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'OracleLinux',
+          :architecture => 'amd64',
+          :release => { :major => '6', :minor => '3', :full => '6.3' },
+        },
+      }
+    end
     let(:params) { { 'distribution' => 'jre' } }
     it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk') }
   end
 
   context 'select passed value for Scientific Linux' do
-    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Scientific', :operatingsystemrelease => '6.4'} }
+    let(:facts) do
+      {
+        :osfamily => 'RedHat',
+        :os => {
+          :family => 'RedHat',
+          :name => 'Scientific',
+          :architecture => 'amd64',
+          :release => { :major => '6', :minor => '4', :full => '6.4' },
+        },
+      }
+    end
     let(:params) { { 'distribution' => 'jre' } }
     it { is_expected.to contain_package('java').with_name('java-1.7.0-openjdk') }
   end
 
   context 'select default for OpenSUSE 12.3' do
-    let(:facts) { {:osfamily => 'Suse', :operatingsystem => 'OpenSUSE', :operatingsystemrelease => '12.3'}}
+    let(:facts) do
+      {
+        :osfamily => 'Suse',
+        :os => {
+          :family => 'Suse',
+          :name => 'OpenSUSE',
+          :architecture => 'amd64',
+          :release => { :major => '12', :minor => '3', :full => '12.3' },
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('java-1_7_0-openjdk-devel')}
   end
 
   context 'select jdk for OpenBSD' do
-    let(:facts) { {:osfamily => 'OpenBSD'} }
+    let(:facts) do
+      {
+        :osfamily => 'OpenBSD',
+        :os => {
+          :family => 'OpenBSD',
+          :name => 'OpenBSD',
+          :architecture => 'amd64',
+        },
+      }
+    end
     it { is_expected.to contain_package('java').with_name('jdk') }
   end
 
   context 'select jre for OpenBSD' do
-    let(:facts) { {:osfamily => 'OpenBSD'} }
+    let(:facts) do
+      {
+        :osfamily => 'OpenBSD',
+        :os => {
+          :family => 'OpenBSD',
+          :name => 'OpenBSD',
+          :architecture => 'amd64',
+        },
+      }
+    end
     let(:params) { { 'distribution' => 'jre' } }
     it { is_expected.to contain_package('java').with_name('jre') }
   end
@@ -169,37 +365,54 @@ describe 'java_binary', :type => :class do
     [
       {
         # C14706
-        :osfamily               => 'windows',
-        :operatingsystem        => 'windows',
-        :operatingsystemrelease => '8.1',
+        :osfamily => 'windows',
+        :os => {
+          :family => 'windows',
+          :name => 'windows',
+        },
+        :release => { :major => '8', :minor => '1', :full => '8.1' },
       },
       {
         # C14707
-        :osfamily               => 'Darwin',
-        :operatingsystem        => 'Darwin',
-        :operatingsystemrelease => '13.3.0',
+        :osfamily => 'Darwin',
+        :os => {
+          :family => 'Darwin',
+          :name => 'Darwin',
+        },
+        :release => { :major => '13', :minor => '3', :full => '13.3.0' },
       },
       {
         # C14708
-        :osfamily               => 'AIX',
-        :operatingsystem        => 'AIX',
-        :operatingsystemrelease => '7100-02-00-000',
+        :osfamily => 'AIX',
+        :os => {
+            :family => 'AIX',
+            :name => 'AIX',
+        },
+        :release => {:full => '7100-02-00-000' },
       },
       {
         # C14708
-        :osfamily               => 'AIX',
-        :operatingsystem        => 'AIX',
         :operatingsystemrelease => '6100-07-04-1216',
+        :osfamily => 'AIX',
+        :os => {
+          :family => 'AIX',
+          :name => 'AIX',
+        },
+        :release => {:full => '6100-07-04-1216' },
       },
       {
         # C14708
-        :osfamily               => 'AIX',
-        :operatingsystem        => 'AIX',
-        :operatingsystemrelease => '5300-12-01-1016',
+        :operatingsystemrelease => '6100-07-04-1216',
+        :osfamily => 'AIX',
+        :os => {
+          :family => 'AIX',
+          :name => 'AIX',
+        },
+        :release => {:full => '5300-12-01-1016' },
       },
     ].each do |facts|
       let(:facts) { facts }
-      it "is_expected.to fail on #{facts[:operatingsystem]} #{facts[:operatingsystemrelease]}" do
+      it "is_expected.to fail on #{facts[:os][:family]} #{facts[:release][:full]}" do
         expect { catalogue }.to raise_error Puppet::Error, /unsupported platform/
       end
     end
@@ -209,13 +422,16 @@ describe 'java_binary', :type => :class do
   context 'Debian Wheezy' do
     let(:facts) do
       {
+        # still old fact is needed due to this
+        # https://github.com/puppetlabs/puppetlabs-apt/blob/master/manifests/params.pp#L3
         :osfamily => 'Debian',
-        :operatingsystem => 'Debian',
-        :lsbdistcodename => 'wheezy',
-        :lsbdistrelease => '7.1',
-        :lsbdistid => 'Debian',
-        :operatingsystemrelease => '7.1',
-        :architecture => 'amd64',
+        :os => {
+          :family => 'Debian',
+          :name => 'Debian',
+          :architecture => 'amd64',
+          :distro => { :codename => 'wheezy' },
+          :release => { :major => '7', :minor => '1', :full => '7.1' },
+        },
         :puppetversion => Puppet.version,
       }
     end
@@ -302,15 +518,20 @@ describe 'java_binary', :type => :class do
   context 'select Oracle JDK for Debian Jessie' do
     let(:facts) do
       {
-      :osfamily => 'Debian',
-      :operatingsystem => 'Debian',
-      :lsbdistid => 'Debian',
-      :lsbdistcodename => 'jessie',
-      :operatingsystemrelease => '8.1',
-      :architecture => 'amd64',
-      :puppetversion => Puppet.version,
-    }
+        # still old fact is needed due to this
+        # https://github.com/puppetlabs/puppetlabs-apt/blob/master/manifests/params.pp#L3
+        :osfamily => 'Debian',
+        :os => {
+          :family => 'Debian',
+          :name => 'Debian',
+          :architecture => 'amd64',
+          :distro => { :codename => 'jessie' },
+          :release => { :major => '8', :minor => '1', :full => '8.1' },
+        },
+        :puppetversion => Puppet.version,
+      }
     end
+
 
     let(:params) do
       {
@@ -329,14 +550,18 @@ describe 'java_binary', :type => :class do
   context 'Debian Stretch' do
     let(:facts) do
       {
-      :osfamily => 'Debian',
-      :operatingsystem => 'Debian',
-      :lsbdistid => 'Debian',
-      :lsbdistcodename => 'stretch',
-      :operatingsystemrelease => '9',
-      :architecture => 'amd64',
-      :puppetversion => Puppet.version,
-    }
+        # still old fact is needed due to this
+        # https://github.com/puppetlabs/puppetlabs-apt/blob/master/manifests/params.pp#L3
+        :osfamily => 'Debian',
+        :os => {
+          :family => 'Debian',
+          :name => 'Debian',
+          :architecture => 'amd64',
+          :distro => { :codename => 'stretch' },
+          :release => { :major => '9', :minor => '1', :full => '9.1' },
+        },
+        :puppetversion => Puppet.version,
+      }
     end
 
     let(:params) do
