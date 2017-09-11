@@ -55,7 +55,12 @@ class java_binary::params {
       }
     }
     'Debian': {
-      case $facts['os']['distro']['codename'] {
+      $dist = has_key($facts['os'], 'distro') ? {
+        true =>  $facts['os']['distro']['codename'], # puppet 4.10.6 (puppetlabs)
+        false =>  $facts['os']['lsb']['distcodename'] # puppet 4.8.2 (debian) WHY?!
+      }
+
+      case $dist {
         'lenny', 'squeeze', 'lucid', 'natty': {
           $java  = {
             'jdk' => {
